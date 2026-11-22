@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- BKDTrack Pro data access goes straight from the browser to the database, protected by row-level rules (access_grants matched on the signed-in email) — keeps permissions enforced server-side without extra server code.
+- SKS compliance rules live in src/lib/bkd.ts with tests in src/lib/bkd.test.ts — single source for dashboard, warnings, and LKD print.
