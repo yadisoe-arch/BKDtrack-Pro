@@ -14,13 +14,145 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      access_grants: {
+        Row: {
+          created_at: string
+          id: string
+          member_email: string
+          owner_id: string
+          pilars: string[]
+          role: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          member_email: string
+          owner_id: string
+          pilars?: string[]
+          role: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          member_email?: string
+          owner_id?: string
+          pilars?: string[]
+          role?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      logbook_entries: {
+        Row: {
+          bukti_path: string | null
+          bukti_url: string | null
+          catatan_reviewer: string | null
+          created_at: string
+          created_by: string
+          deskripsi: string | null
+          id: string
+          judul: string
+          owner_id: string
+          pilar: string
+          semester: string
+          sks: number
+          status: string
+          sub_kegiatan: string | null
+          tahun_akademik: string
+          tanggal_mulai: string | null
+          tanggal_selesai: string | null
+          updated_at: string
+        }
+        Insert: {
+          bukti_path?: string | null
+          bukti_url?: string | null
+          catatan_reviewer?: string | null
+          created_at?: string
+          created_by?: string
+          deskripsi?: string | null
+          id?: string
+          judul: string
+          owner_id: string
+          pilar: string
+          semester?: string
+          sks?: number
+          status?: string
+          sub_kegiatan?: string | null
+          tahun_akademik?: string
+          tanggal_mulai?: string | null
+          tanggal_selesai?: string | null
+          updated_at?: string
+        }
+        Update: {
+          bukti_path?: string | null
+          bukti_url?: string | null
+          catatan_reviewer?: string | null
+          created_at?: string
+          created_by?: string
+          deskripsi?: string | null
+          id?: string
+          judul?: string
+          owner_id?: string
+          pilar?: string
+          semester?: string
+          sks?: number
+          status?: string
+          sub_kegiatan?: string | null
+          tahun_akademik?: string
+          tanggal_mulai?: string | null
+          tanggal_selesai?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          checklist: Json
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          jabatan: string
+          nidn: string | null
+          tmt: string | null
+          updated_at: string
+        }
+        Insert: {
+          checklist?: Json
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id: string
+          jabatan?: string
+          nidn?: string | null
+          tmt?: string | null
+          updated_at?: string
+        }
+        Update: {
+          checklist?: Json
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          jabatan?: string
+          nidn?: string | null
+          tmt?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      grant_allows_pilar: {
+        Args: { _owner: string; _pilar: string }
+        Returns: boolean
+      }
+      grant_role: { Args: { _owner: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
