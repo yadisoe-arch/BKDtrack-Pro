@@ -12,6 +12,7 @@ import { Dashboard } from "@/components/bkd/Dashboard";
 import { Logbook } from "@/components/bkd/Logbook";
 import { Karier } from "@/components/bkd/Karier";
 import { Akses } from "@/components/bkd/Akses";
+import { PdfTool } from "@/components/bkd/PdfTool";
 import { LkdPrint } from "@/components/bkd/LkdPrint";
 import { ROLE_LABEL, type Workspace } from "@/components/bkd/types";
 
@@ -104,11 +105,13 @@ function AppPage() {
               <TabsTrigger value="dashboard">Dashboard Kepatuhan</TabsTrigger>
               <TabsTrigger value="logbook">Logbook Tridharma</TabsTrigger>
               <TabsTrigger value="karier">Penjenjangan Karier</TabsTrigger>
+              <TabsTrigger value="pdf">Gabung & Kompres PDF</TabsTrigger>
               {ws.role === "admin" && <TabsTrigger value="akses">Hak Akses</TabsTrigger>}
             </TabsList>
             <TabsContent value="dashboard"><Dashboard entries={entries} /></TabsContent>
             <TabsContent value="logbook"><Logbook ws={ws} entries={entries} userId={user.id} semester={semester} tahun={tahun} refresh={refresh} onPrint={() => window.print()} /></TabsContent>
             <TabsContent value="karier">{profile ? <Karier key={profile.id} profile={profile} editable={ws.role === "admin"} onSaved={() => refetchProfile()} /> : <p className="text-muted-foreground">Profil tidak tersedia.</p>}</TabsContent>
+            <TabsContent value="pdf"><PdfTool /></TabsContent>
             {ws.role === "admin" && <TabsContent value="akses"><Akses ownerId={user.id} /></TabsContent>}
           </Tabs>
         </main>
