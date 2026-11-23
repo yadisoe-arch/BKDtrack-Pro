@@ -13,6 +13,8 @@ import { Logbook } from "@/components/bkd/Logbook";
 import { Karier } from "@/components/bkd/Karier";
 import { Akses } from "@/components/bkd/Akses";
 import { PdfTool } from "@/components/bkd/PdfTool";
+import { Kalender } from "@/components/bkd/Kalender";
+import { NotificationBell } from "@/components/bkd/NotificationBell";
 import { LkdPrint } from "@/components/bkd/LkdPrint";
 import { ROLE_LABEL, type Workspace } from "@/components/bkd/types";
 
@@ -65,6 +67,11 @@ function AppPage() {
     queryKey: ["entries", wsId, semester, tahun],
     queryFn: async () => (await supabase.from("logbook_entries").select("*").eq("owner_id", wsId).eq("semester", semester).eq("tahun_akademik", tahun).order("tanggal_mulai", { ascending: false })).data ?? [],
   });
+  const { data: agendas = [] } = useQuery({
+    queryKey: ["agenda", wsId],
+    queryFn: async () => (await supabase.from("agenda").select("*").eq("owner_id", wsId).order("mulai")).data ?? [],
+  });
+  const refreshAgenda = () => qc.invalidateQueries({ queryKey: ["agenda", wsId] });
   const refresh = () => qc.invalidateQueries({ queryKey: ["entries", wsId] });
 
   async function signOut() {
@@ -85,6 +92,7 @@ function AppPage() {
                 <Select value={wsId} onValueChange={setWsId}><SelectTrigger className="w-56"><SelectValue /></SelectTrigger>
                   <SelectContent>{workspaces.map((w) => <SelectItem key={w.ownerId} value={w.ownerId}>{w.name} · {ROLE_LABEL[w.role]}</SelectItem>)}</SelectContent></Select>
               )}
+              <NotificationBell agendas={agendas} />
               <span className="hidden text-sm text-muted-foreground md:inline">{user.email}</span>
               <Button size="icon" variant="ghost" title="Keluar" onClick={signOut}><LogOut className="h-4 w-4" /></Button>
             </div>
@@ -105,12 +113,14 @@ function AppPage() {
               <TabsTrigger value="dashboard">Dashboard Kepatuhan</TabsTrigger>
               <TabsTrigger value="logbook">Logbook Tridharma</TabsTrigger>
               <TabsTrigger value="karier">Penjenjangan Karier</TabsTrigger>
+              <TabsTrigger value="kalender">Kalender Agenda</TabsTrigger>
               <TabsTrigger value="pdf">Gabung & Kompres PDF</TabsTrigger>
               {ws.role === "admin" && <TabsTrigger value="akses">Hak Akses</TabsTrigger>}
             </TabsList>
             <TabsContent value="dashboard"><Dashboard entries={entries} /></TabsContent>
             <TabsContent value="logbook"><Logbook ws={ws} entries={entries} userId={user.id} semester={semester} tahun={tahun} refresh={refresh} onPrint={() => window.print()} /></TabsContent>
             <TabsContent value="karier">{profile ? <Karier key={profile.id} profile={profile} editable={ws.role === "admin"} onSaved={() => refetchProfile()} /> : <p className="text-muted-foreground">Profil tidak tersedia.</p>}</TabsContent>
+            <TabsContent value="kalender"><Kalender ws={ws} agendas={agendas} refresh={refreshAgenda} onConverted={refresh} /></TabsContent>
             <TabsContent value="pdf"><PdfTool /></TabsContent>
             {ws.role === "admin" && <TabsContent value="akses"><Akses ownerId={user.id} /></TabsContent>}
           </Tabs>

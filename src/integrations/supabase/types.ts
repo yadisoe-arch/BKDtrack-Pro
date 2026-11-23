@@ -44,6 +44,54 @@ export type Database = {
         }
         Relationships: []
       }
+      agenda: {
+        Row: {
+          catatan: string | null
+          converted_entry_id: string | null
+          created_at: string
+          id: string
+          judul: string
+          lokasi: string | null
+          mulai: string
+          owner_id: string
+          pilar: string
+          reminder_minutes: number
+          selesai: string
+          tautan: string | null
+          updated_at: string
+        }
+        Insert: {
+          catatan?: string | null
+          converted_entry_id?: string | null
+          created_at?: string
+          id?: string
+          judul: string
+          lokasi?: string | null
+          mulai: string
+          owner_id?: string
+          pilar: string
+          reminder_minutes?: number
+          selesai: string
+          tautan?: string | null
+          updated_at?: string
+        }
+        Update: {
+          catatan?: string | null
+          converted_entry_id?: string | null
+          created_at?: string
+          id?: string
+          judul?: string
+          lokasi?: string | null
+          mulai?: string
+          owner_id?: string
+          pilar?: string
+          reminder_minutes?: number
+          selesai?: string
+          tautan?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       logbook_entries: {
         Row: {
           bukti_path: string | null
